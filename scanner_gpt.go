@@ -2,6 +2,7 @@ package main
 
 import (
 	"bufio"
+	"crypto/tls"
 	"fmt"
 	"net/http"
 	"os"
@@ -36,7 +37,13 @@ func logFoundURL(url string) {
 
 func scanner(url string, w *os.File, wg *sync.WaitGroup) {
 	defer wg.Done()
-	resp, err := http.Get(url + "/.git/HEAD")
+
+	tr := &http.Transport{
+		TLSClientConfig: &tls.Config{InsecureSkipVerify: true},
+	}
+	client := &http.Client{Transport: tr}
+
+	resp, err := client.Get(url + "/.git/HEAD")
 	if err != nil {
 		fmt.Println("Error retrieving url: " + url)
 		return
