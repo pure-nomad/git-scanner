@@ -78,7 +78,7 @@ func main() {
 		os.Exit(0)
 	}
 
-	helpText := "git scanner made by erg0sum"
+	helpText := "git scanner made by pure-nomad"
 
 	file, err := os.Open(os.Args[1])
 	if err != nil {
